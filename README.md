@@ -21,10 +21,7 @@ The following project is meant for managing tasks by breaking projects down into
 6. Javax servlet jsp-api 2.3.1
 7. Jstl 1.2
 ```
-### Developer Contact Information
-```
-Anastasia Kolevatykh
-anastasia.kolevatykh@gmail.com
+
 ```
 ### Command for Application Building:
 ```
