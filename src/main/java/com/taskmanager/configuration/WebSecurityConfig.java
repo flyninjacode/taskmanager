@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -54,32 +56,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .headers().frameOptions().sameOrigin() // added to view h2 console
+            .headers().frameOptions().sameOrigin() // added to view h2 console
+            .and()
+             //.addFilterBefore(customFilter(), BasicAuthenticationFilter.class)
+            .authorizeRequests()
+                .antMatchers("/index")
+                .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
                 .and()
-                .authorizeRequests()
-                    .antMatchers("/index")
-                    .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
-                    .and()
-                .authorizeRequests()
-                    .antMatchers("/", "/auth/**", "/login", "/signup", "/resource/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("login")
-                    .passwordParameter("password")
-                    .permitAll()
-                    .loginProcessingUrl("/doLogin")
-                    .successForwardUrl("/postLogin")
-                    .failureUrl("/loginFailed")
+            .authorizeRequests()
+                .antMatchers("/", "/auth/**", "/login", "/signup", "/resource/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
-                    .logout()
-                    .logoutUrl("/doLogout")
-                    .logoutSuccessUrl("/logout")
-                    .permitAll()
-                    .and()
-                .csrf().disable();
+            .formLogin()
+                .loginPage("/login")
+                .usernameParameter("login")
+                .passwordParameter("password")
+                .permitAll()
+                .loginProcessingUrl("/doLogin")
+                .successForwardUrl("/postLogin")
+                .failureUrl("/loginFailed")
+            .and()
+                .logout()
+                .logoutUrl("/doLogout")
+                .logoutSuccessUrl("/logout")
+                .permitAll()
+                .and()
+            .csrf().disable();
     }
 }
