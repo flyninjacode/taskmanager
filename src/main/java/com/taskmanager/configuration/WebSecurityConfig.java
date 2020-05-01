@@ -45,12 +45,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         auth.authenticationProvider(authenticationProvider());
 
 //        auth.inMemoryAuthentication()
-//                .withUser("tim").password("123").roles("ADMIN")
+//                .withUser("tim").password(passwordEncoder().encode("123")).roles("ADMIN")
 //                .and()
-//                .withUser("joe").password("234").roles("USER");
+//                .withUser("joe").password(passwordEncoder().encode("234")).roles("USER");
+
     }
 
     @Override
@@ -58,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .headers().frameOptions().sameOrigin() // added to view h2 console
             .and()
-             //.addFilterBefore(customFilter(), BasicAuthenticationFilter.class)
+//             .addFilterBefore(customFilter, BasicAuthenticationFilter.class)
             .authorizeRequests()
                 .antMatchers("/index")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
