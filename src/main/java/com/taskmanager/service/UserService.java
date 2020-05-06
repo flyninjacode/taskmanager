@@ -3,6 +3,8 @@ package com.taskmanager.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.taskmanager.api.service.IProjectService;
 import com.taskmanager.api.service.ITaskService;
@@ -29,6 +31,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 
     @Autowired
     @NotNull private ITaskService taskService;
+
 
     public UserService() {
     }

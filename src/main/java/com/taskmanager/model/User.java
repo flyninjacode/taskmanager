@@ -71,7 +71,9 @@ public final class User extends AbstractEntity {
 
     public User() {
     }
-
+    public boolean match(String login, String passwordHash) {
+        return this.login.equals(login) && this.passwordHash.equals(passwordHash);
+    }
     @NotNull
     public String getLogin() {
         return this.login;
